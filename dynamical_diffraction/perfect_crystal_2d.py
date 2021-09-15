@@ -62,6 +62,78 @@ def laue(E_init, del_x, L, lmbd, alpha_0, alpha_h, chi_0, chi_h, chi_hm = None, 
 
     return E_0, E_h
 
+def bragg_finite(E_init, del_x, L, lmbd, alpha_0, alpha_h, chi_0, chi_h, chi_hm = None, C = 1, phi = 0):
+
+    # Buid recip space coordinate arrays. 
+    q = np.fft.fftfreq(len(E_init))/del_x # Full period frequency, same unit as input.
+
+    # If chi_hm is not explicitly given, we assume that the chi_h given correcponds to a central reflection
+    # and that the imaginary part is the absorption related annommalous part:
+    if chi_hm is None:
+        chi_hm = chi_h
+
+    # Matrix elements
+    k = 2*np.pi/lmbd
+    twotheta = alpha_0 - alpha_h
+    beta = 2*np.sin(twotheta)*phi
+    A_00 = -1j*k/2/np.cos(alpha_0)*chi_0 - 1j/np.tan(alpha_0)*q*2*np.pi
+    A_0h = -1j*k/2/np.cos(alpha_0)*C*chi_hm
+    A_h0 = 1j*k/2/np.sin(alpha_h)*C*chi_h
+    A_hh = 1j*k/2/np.sin(alpha_h)*(chi_0+beta) + 1j/np.tan(alpha_h)*q*2*np.pi
+
+    # Eigenvalues
+    squareroot_term = np.sqrt( A_00**2 + A_hh**2 - 2*A_00*A_hh + 4*A_0h*A_h0 )
+    eigval_2 = 0.5*(squareroot_term + A_00 + A_hh )
+    eigval_1 = 0.5*(-squareroot_term + A_00 + A_hh )
+
+    # Eigenvectors
+    v2 = -(-A_00 + A_hh + squareroot_term) / 2 / A_h0
+    v1 = -(-A_00 + A_hh - squareroot_term) / 2 / A_h0
+
+    # Transmission of of modes
+    t2 = np.exp(eigval_1*L)
+    t1 = np.exp(eigval_2*L)
+
+    # Transform initial condition
+    ff = np.fft.fft(E_init)
+
+    # Calculate reflection and transmission
+    E_h = np.fft.ifft((1 -t1 / t2) / (v1+ -t1 / t2*v2) * ff)
+    E_0 = np.fft.ifft((v1*t1 -t1 *v2) / (v1-t1 / t2*v2) * ff)
+
+    return E_0, E_h
+
+def bragg_inf(E_init, del_x, lmbd, alpha_0, alpha_h, chi_0, chi_h, chi_hm = None, C = 1, phi = 0):
+
+    # Buid recip space coordinate arrays. 
+    q = np.fft.fftfreq(len(E_init))/del_x # Full period frequency, same unit as input.
+
+    # If chi_hm is not explicitly given, we assume that the chi_h given correcponds to a central reflection
+    # and that the imaginary part is the absorption related annommalous part:
+    if chi_hm is None:
+        chi_hm = chi_h
+
+    # Matrix elements
+    k = 2*np.pi/lmbd
+    twotheta = alpha_0 - alpha_h
+    beta = 2*np.sin(twotheta)*phi
+    A_00 = -1j*k/2/np.cos(alpha_0)*chi_0 - 1j/np.tan(alpha_0)*q*2*np.pi
+    A_0h = -1j*k/2/np.cos(alpha_0)*C*chi_hm
+    A_h0 = 1j*k/2/np.sin(alpha_h)*C*chi_h
+    A_hh = 1j*k/2/np.sin(alpha_h)*(chi_0+beta) + 1j/np.tan(alpha_h)*q*2*np.pi
+
+    # Check which eigenvalue is negative
+    squareroot_term = np.sqrt( A_00**2 + A_hh**2 - 2*A_00*A_hh + 4*A_0h*A_h0 )
+    eigval_1 = 0.5*(squareroot_term + A_00 + A_hh )
+    sign = np.sign(np.real(eigval_1))
+
+    # Transform initial condition
+    ff = np.fft.fft(E_init)
+
+    # Find components of the corresponding eigenvector
+    R =  np.fft.ifft(2 * A_h0 / (-A_00 + A_hh + sign * squareroot_term) * ff)
+
+    return R
 
 def laue_rockingcurve(E_init, phi, del_x, L, lmbd, alpha_0, alpha_h, chi_0, chi_h, chi_hm = None, C = 1):
 
