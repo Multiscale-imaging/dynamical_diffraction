@@ -1,6 +1,4 @@
 import numpy as np
-import matplotlib.pyplot as plt
-
 
 def bragg_inf(phi, alpha_0, alpha_h, chi_0, chi_h, chi_hm = None, C = 1):
     ''' Calculate and return the complex reflectivity for an semi-infinite
@@ -140,7 +138,7 @@ def laue_rockingcurve(phi, L, lmbd, alpha_0, alpha_h, chi_0, chi_h, chi_hm = Non
 
 def laue_thickness(L, lmbd, alpha_0, alpha_h, chi_0, chi_h, chi_hm = None, C = 1):
     ''' Calculate and return the complex reflectivity for a plate-like crystal in
-     crystal in Bragg-geometry.
+     crystal in Bragg-geometry at zero rocking angle (which might not be the peak of the reflectivity curve) as a function of the crystal length. 
     Parameters:
         L (numpy array): Thickness of crystal. Same unit as wavelength
         lmbd (real float): wavelength. Same unit as thickness.

@@ -92,7 +92,7 @@ plt.show()
 chi_0 = -2e-6 + 5j*1e-7
 chi_h = 1.88e-6 - 3j*1e-7
 alpha_0 = 5*np.pi/180
-alpha_h = 15*np.pi/180
+alpha_h = -15*np.pi/180
 C = 1
 lmbd = 0.71
 L = 200*1e4
@@ -151,7 +151,7 @@ plt.show()
 # Approximately Diamond at 17 keV, 111 reflection
 chi_0 = -2e-6 + 3j*1e-7
 chi_h = 1.88e-6 - 2j*1e-7
-alpha_0 = 5*np.pi/180
+alpha_0 = -5*np.pi/180
 alpha_h = 15*np.pi/180
 C = 1
 lmbd = 0.71
