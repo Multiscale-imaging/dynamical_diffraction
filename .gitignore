@@ -1,3 +1,5 @@
 build/*
 dynamical_diffraction/__pycache__/*
 dynamical_diffraction.egg-info/*
+tests/__pycache__/*
+.vscode/*
