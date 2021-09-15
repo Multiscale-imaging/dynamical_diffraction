@@ -1,0 +1,3 @@
+build/*
+dynamical_diffraction/__pycache__/*
+dynamical_diffraction.egg-info/*
