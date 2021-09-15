@@ -1,4 +1,4 @@
-import functions.ewald_laue_theory as elt
+import dynamical_diffraction.ewald_laue_theory as elt
 import numpy as np
 import matplotlib.pyplot as plt
 
