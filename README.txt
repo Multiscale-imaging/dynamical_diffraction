@@ -1,4 +1,4 @@
-This is just a small collection of functions used to calculate dynamical diffraction patterns from place like crytals.
+This is just a small collection of functions used to calculate dynamical diffraction patterns from plate-like crytals.
 
 The formalism is based on the "symmetric Takagi Taupin Equations". See https://arxiv.org/pdf/1703.04100.pdf for example.
 
