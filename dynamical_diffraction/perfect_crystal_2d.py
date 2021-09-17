@@ -204,7 +204,7 @@ def bragg_finite_2d_evaluation(E_init, del_x, L, M, lmbd, alpha_0, alpha_h, chi_
     # Buid recip space coordinate arrays. 
     q = np.fft.fftfreq(len(E_init))/del_x # Full period frequency, same unit as input.
 
-    # If chi_hm is not explicitly given, we assume that the chi_h given correcponds to a central reflection
+    # If chi_hm is not explicitly given, we assume that the chi_h given corresponds to a central reflection
     # and that the imaginary part is the absorption related annommalous part:
     if chi_hm is None:
         chi_hm = chi_h
@@ -250,7 +250,7 @@ def bragg_finite_2d_evaluation(E_init, del_x, L, M, lmbd, alpha_0, alpha_h, chi_
 
 def laue_rockingcurve(E_init, phi, del_x, L, lmbd, alpha_0, alpha_h, chi_0, chi_h, chi_hm = None, C = 1):
 
-    ''' Perfect crystal propagator in the Laue case for a fixed rocking angle and crystal thickness.
+    ''' Perfect crystal propagator in the Laue case for a fixed crystal thickness as a function of rocking angle.
         The same can be achieved by running 'laue' for different rocking angles, 
         but this one vectorizes over the rocking angle for efficient evaluation.
 

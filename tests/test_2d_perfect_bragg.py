@@ -19,7 +19,7 @@ E_init = np.exp(-(x-x_mid)**2/2/width**2).astype(complex)
 L = 10*1e-3
 E_0, E_h = perf_2d.bragg_finite(E_init, del_x, L, lmbd, alpha_0, alpha_h, chi_0, chi_h, phi = 0)
 
-fig = plt.figure(figsize = (10, 6))
+fig1 = plt.figure(figsize = (10, 6))
 plt.subplot(2,3,1)
 plt.plot(x*1e3, np.abs(E_init)**2)
 plt.xlabel(r'$L (\mu\mathrm{m})$', fontsize = 15)
@@ -55,8 +55,8 @@ plt.xlabel(r'$L (\mu\mathrm{m})$', fontsize = 15)
 plt.ylabel(r'$|E_h(x,0)|^2$', fontsize = 15)
 plt.title('Scattered beam',fontsize = 20)
 
-fig.tight_layout()  
-plt.show()
+fig1.tight_layout()  
+
 
 E0_list = []
 Eh_list = []
@@ -71,7 +71,7 @@ for phi in phi_list:
 
 
 
-fig = plt.figure(figsize = (6,6))
+fig2 = plt.figure(figsize = (6,6))
 x_axis_ticks = np.array([0, 100, 200, 300, 400]) # microns
 phi_axis_ticks = np.array([-1000, -500, 00, 500, 1000]) # micro radians
 del_phi = phi_list[1] - phi_list[0]
@@ -94,14 +94,14 @@ plt.xlabel(r'$x (\mathrm{\mu m})$', fontsize = 15)
 plt.yticks(phi_axis_ticks*1e-6 / del_phi + M/2, phi_axis_ticks, fontsize = 12)
 plt.ylabel(r'$\phi (\mathrm{\mu rad})$', fontsize = 15)
 plt.title('Scattered beam',fontsize = 20)
-fig.tight_layout()  
-plt.show()
+fig2.tight_layout()  
+
 
 M = 200
 E_0, E_h = perf_2d.bragg_finite_2d_evaluation(E_init, del_x, L, M,lmbd, alpha_0, alpha_h, chi_0, chi_h, phi = 0)
 
 
-fig = plt.figure(figsize = (6, 4))
+fig3 = plt.figure(figsize = (6, 4))
 x_axis_ticks = np.array([0, 100, 200, 300, 400]) # microns
 z_axis_ticks = np.array([0, 5, 10]) # microns
 del_z = L/M
@@ -122,4 +122,5 @@ plt.yticks(z_axis_ticks*1e-3 / del_z, z_axis_ticks, fontsize = 12)
 plt.ylabel(r'$z (\mathrm{\mu m})$', fontsize = 15)
 plt.colorbar()
 plt.title('Scattered beam',fontsize = 20)
+
 plt.show()

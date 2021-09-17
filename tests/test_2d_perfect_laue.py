@@ -20,7 +20,7 @@ E_init = np.exp(-(x-x_mid)**2/2/width**2).astype(complex)
 
 E_0, E_h = perf_2d.laue(E_init, del_x, L, lmbd, alpha_0, alpha_h, chi_0, chi_h, chi_hm = None, C = 1, phi = 20e-6)
 
-fig = plt.figure(figsize = (15, 5))
+fig1 = plt.figure(figsize = (15, 5))
 plt.subplot(1,3,1)
 plt.plot(x, np.abs(E_init)**2)
 plt.xlabel(r'$L (\mu\mathrm{m})$', fontsize = 15)
@@ -39,15 +39,15 @@ plt.xlabel(r'$L (\mu\mathrm{m})$', fontsize = 15)
 plt.ylabel(r'$E_h(x,L)|^2$', fontsize = 15)
 plt.title('Scattered beam',fontsize = 20)
 
-fig.tight_layout()  
-plt.show()
+fig1.tight_layout()  
+
 
 M = 500
 phi_range = 100e-6
 phi = np.linspace(-phi_range, phi_range, M) 
 E_0, E_h = perf_2d.laue_rockingcurve(E_init, phi, del_x, L, lmbd, alpha_0, alpha_h, chi_0, chi_h, chi_hm = None, C = 1)
 
-fig = plt.figure(figsize = (10, 4))
+fig2 = plt.figure(figsize = (10, 4))
 x_axis_ticks = np.array([0, 20, 40, 60, 80, 100]) # microns
 phi_axis_ticks = np.array([-100, -50, 0, 50, 100]) # micro radians
 del_phi = phi[1] - phi[0]
@@ -88,8 +88,8 @@ ax2.tick_params(axis='both', which='minor', labelsize=10)
 plt.title('Integrated intensity',fontsize = 20)
 
 
-fig.tight_layout()
-plt.show()
+fig2.tight_layout()
+
 
 M = 500
 
@@ -101,7 +101,7 @@ L = np.linspace(10*1e-3, 610*1e-3, M)
 
 E_0, E_h = perf_2d.laue_depth_dependece(E_init, del_x, L, lmbd, alpha_0, alpha_h, chi_0, chi_h)
 
-fig = plt.figure(figsize = (10, 4))
+fig3 = plt.figure(figsize = (10, 4))
 x_axis_ticks = np.array([0, 50, 100, 150, 200]) # microns
 L_axis_ticks = np.array([0, 200, 400, 600]) # micro radians
 del_L = L[1] - L[0]
@@ -143,6 +143,6 @@ ax2.tick_params(axis='both', which='minor', labelsize=10)
 plt.title('Integrated intensity',fontsize = 20)
 
 
-fig.tight_layout()
+fig3.tight_layout()
 plt.show()
 
