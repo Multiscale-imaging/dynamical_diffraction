@@ -3,6 +3,29 @@ import numpy as np
 
 def laue_exponential_heun(E_init, u, del_z, del_x, L, lmbd, alpha_0, alpha_h, chi_0, chi_h, chi_hm = None, C = 1, phi = 0):
 
+    ''' Perfect crystal finite difference integrator in the Laue case for a fixed rocking angle and crystal thickness.
+    The finite difference is "exponential euler" descibed in https://arxiv.org/abs/2106.12412
+
+    Parameters:
+        E_init (N by 1 complex numpy array): Complex real space amplitude of the incident beam.
+        u (function): Function of x (array) and z(contant) that returns the scalar displacement field
+                      in the direction of Q. Given in the same real space units as other inputs.
+        del_z (float): Step size in thickness dimension.              
+        del_x (float): Step size in transverse direction.
+        L (float): Crystal thickness in logitudinal direction. Number of steps is M = floor(L/del_z).
+        lmbd (float): wavelength in same units as del_x and L
+        alpha_0 (float): Angle of incidence of incident beam
+        alpha_h (float): Angle of incidence of scattered beam
+        chi_0 (complex float): average electric susceptibility
+        chi_h (complex float): fourier coeff. of the electric susceptibility corresponding to the reflection
+        chi_hm (optional, complex float): fourier coeff. of the electric susceptibility corresponding to the back-reflection
+        C (optional, float): Polarization factor
+        phi (optional, float): rocking angle
+
+    Returns:
+        E_0 (N by M complex numpy array): Complex real space amplitudes of transmitted beam.
+        E_h (N by M complex numpy array): Complex real space amplitudes of scattered beam.
+    '''
 
     # If chi_hm is not explicitly given, we assume that the chi_h given correcponds to a central reflection
     # and that the imaginary part is the absorption related annommalous part:
@@ -16,7 +39,6 @@ def laue_exponential_heun(E_init, u, del_z, del_x, L, lmbd, alpha_0, alpha_h, ch
     beta = 2*np.sin(twotheta)*phi
     Nz = int(L//del_z)
     Nx = len(E_init)
-
 
     # Build coordinate arrays
     x = np.arange(Nx) * del_x
@@ -32,7 +54,6 @@ def laue_exponential_heun(E_init, u, del_z, del_x, L, lmbd, alpha_0, alpha_h, ch
     A_00 = -1j*k*chi_0/2/ct0 + 1j*tt0*qx*2*np.pi
     A_hh = -1j*k*(chi_0+beta)/2/cth + 1j*tth*qx*2*np.pi
     A = np.append(A_00, A_hh)
-
     B0 = -1j * k**2 / 2 / (ct0 * k)*np.ones(Nx)
     Bh = -1j * k**2 / 2 / (cth * k)*np.ones(Nx)
 
@@ -61,13 +82,11 @@ def laue_exponential_heun(E_init, u, del_z, del_x, L, lmbd, alpha_0, alpha_h, ch
         # return flattened array
         return arr.flatten()
 
-
     # Output arrays
     E0 = np.zeros((Nz,Nx), dtype=complex)
     Eh = np.zeros((Nz,Nx), dtype=complex)
 
     ########## Define step function ###############
-
     # Pre-calculate exponentials
     phi0 = np.exp(del_z*A)
     phi1 = 1/del_z/A * (phi0 - 1)
