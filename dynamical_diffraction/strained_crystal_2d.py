@@ -3,7 +3,7 @@ import numpy as np
 
 def laue_exponential_heun(E_init, u, del_z, del_x, L, lmbd, alpha_0, alpha_h, chi_0, chi_h, chi_hm = None, C = 1, phi = 0):
 
-    ''' Perfect crystal finite difference integrator in the Laue case for a fixed rocking angle and crystal thickness.
+    ''' Strained crystal finite difference integrator in the Laue case for a fixed rocking angle and crystal thickness.
     The finite difference is "exponential euler" descibed in https://arxiv.org/abs/2106.12412
 
     Parameters:
