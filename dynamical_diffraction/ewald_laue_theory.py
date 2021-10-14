@@ -110,7 +110,7 @@ def laue_rockingcurve(phi, L, lmbd, alpha_0, alpha_h, chi_0, chi_h, chi_hm = Non
 
     # Matrix elements
     k = 2*np.pi/lmbd
-    twotheta = alpha_0 + alpha_h
+    twotheta = alpha_0 - alpha_h
     beta = 2*np.sin(twotheta)*phi
     A_00 = 1j*k/2/np.cos(alpha_0)*chi_0
     A_0h = 1j*k/2/np.cos(alpha_0)*C*chi_hm
