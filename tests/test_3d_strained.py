@@ -44,11 +44,12 @@ E_init = E_init.astype(complex)
 z = np.arange(gridshape[2])*stepsizes[2]
 
 mid_yz = [37e-3, 44e-3]
+mid_yz_2 = [22e-3, 30e-3]
 q_magnitude = np.linalg.norm(k_h - k_0)
 
 u_array = np.zeros(gridshape)
 for iz in range(gridshape[2]):
-    u_array[:,:,iz] = y**2*2e-5 - np.arctan2(y-mid_yz[0], z[iz]-mid_yz[1])/q_magnitude*2
+    u_array[:,:,iz] = y**2*2e-5 - np.arctan2(y-mid_yz[0], z[iz]-mid_yz[1])/q_magnitude*2 + np.arctan2(y-mid_yz_2[0], z[iz]-mid_yz_2[1])/q_magnitude*2
 
 # plt.imshow(u_array[128,:,:])
 # plt.show()
