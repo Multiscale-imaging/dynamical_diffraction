@@ -8,24 +8,27 @@ def laue_exponential_heun(E_init, u, stepsizes, gridshape, lmbd, k_0, k_h, chi_0
     The finite difference is "exponential euler" descibed in https://arxiv.org/abs/2106.12412
 
     Parameters:
-        E_init (N by 1 complex numpy array): Complex real space amplitude of the incident beam.
-        u (function): Function of x (array) and z(contant) that returns the scalar displacement field
-                      in the direction of Q. Given in the same real space units as other inputs.
-        del_z (float): Step size in thickness dimension.              
-        del_x (float): Step size in transverse direction.
-        L (float): Crystal thickness in logitudinal direction. Number of steps is M = floor(L/del_z).
-        lmbd (float): wavelength in same units as del_x and L
-        alpha_0 (float): Angle of incidence of incident beam
-        alpha_h (float): Angle of incidence of scattered beam
+        E_init (N_x by N_y complex numpy array): Complex real space amplitude of the incident beam.
+        u (various optics): specifies how the displacement field is given. The displacement fiels given should always
+            only be the component parallel to Q
+            If u_type is 'array' u should be an numpy array of dimension "gridshape" with realf float elements
+                
+        stepsizes (3 length sequence of floats): The step sizes in x, y, and z directions.
+        gridshape (3 length sequence of ints): Number of steps in the integration grid Nx, Ny, Nz. The total thickness of 
+        the crystal is L_z = stepsizes[2]*(gridshape[2]-1)
+        lmbd (float): wavelength in same units as u and stepsizes
+        k_0 (3 length float numpy array): Wavevector of incident beam.
+        k_h (3 length float numpy array): Wavevector of scattered beam. K_0 and k_h should *exactly* sattisgy the vacuum Bragg condition
         chi_0 (complex float): average electric susceptibility
         chi_h (complex float): fourier coeff. of the electric susceptibility corresponding to the reflection
         chi_hm (optional, complex float): fourier coeff. of the electric susceptibility corresponding to the back-reflection
         C (optional, float): Polarization factor
         phi (optional, float): rocking angle
+        u_type (string): tells the program how the displacement field is specified
 
     Returns:
-        E_0 (N by M complex numpy array): Complex real space amplitudes of transmitted beam.
-        E_h (N by M complex numpy array): Complex real space amplitudes of scattered beam.
+        E_0 (N_x by N_y complex numpy array): Complex real space amplitudes of transmitted beam.
+        E_h (N_x by N_y complex numpy array): Complex real space amplitudes of scattered beam.
     '''
 
     # If chi_hm is not explicitly given, we assume that the chi_h given correcponds to a central reflection
